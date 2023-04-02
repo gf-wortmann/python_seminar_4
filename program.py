@@ -1,30 +1,38 @@
-# Задача 24
-# В фермерском хозяйстве в Карелии выращивают чернику. Она растет на круглой
-# грядке, причем кусты высажены только по окружности. Таким образом, у каждого
-# куста есть ровно два соседних. Всего на грядке растет N кустов.
+# Задача 22:
+# Даны два неупорядоченных набора целых чисел (может быть, с повторениями).
+# Выдать без повторений в порядке возрастания все те числа, которые встречаются
+# в обоих наборах.
+# Пользователь вводит 2 числа. n - кол-во элементов первого множества. m - кол-во
+# элементов второго множества. Затем пользователь вводит сами элементы
+# множеств
 #
-# Эти кусты обладают разной урожайностью, поэтому ко времени сбора на них
-# выросло различное число ягод – на i-ом кусте выросло ai ягод.
-# В этом фермерском хозяйстве внедрена система автоматического сбора черники.
-# Эта система состоит из управляющего модуля и нескольких собирающих модулей.
-# Собирающий модуль за один заход, находясь непосредственно перед некоторым
-# кустом, собирает ягоды с этого куста и с двух соседних с ним.
-# Напишите программу для нахождения максимального числа ягод, которое может
-# собрать за один заход собирающий модуль, находясь перед некоторым кустом
-# заданной во входном файле грядки.
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Условия задачи слегка расширены: можно ввести длины произвольного количества массивов.
+# Результатом будет пересечение ВСЕХ массивов.
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 
 from random import randrange
+# getting user's input
+list_length = [int(i) for i in input('Enter lengths of any arrays: ').split()]
 
-bush_count = int( input('Enter the number of blueberry bushes: '))
-bush_harvest = [randrange(0, 20) for i in range(bush_count)]
-bush_harvest.append(bush_harvest[0])
-bush_harvest.insert(0,bush_harvest[-2])
-pos_harvest = []
-for i in range(1, len(bush_harvest)-1):
-    #    print(f'i= {i}, harvest [{i}]= {bush_harvest[i]}')
-    pos_harvest.append(
-        bush_harvest[i-1]
-        + bush_harvest[i]
-        + bush_harvest[i+1]
-    )
-print(f'Max harvest taken by one position is: {max(pos_harvest)} berries')
+# forming random lists of integers
+# upper margin at 100 set just for simplicity
+lists = [
+        [randrange(1,100) for j in range(list_length[i])]
+         for i in range(len(list_length))
+        ]
+
+# forming sets of unique values of the lists
+sets = [set(lists[i]) for i in range(len(list_length))]
+
+# getting intersection of all sets
+res = set(sets[0])  # the result doesn't depend on which set is taken as starting point, so the 1st is taken
+for i in sets:
+    res = res.intersection(i)
+
+# printing the result
+if len(res) != 0:
+    print(f'intersection of arrays is: {res}')
+else:
+    print('arrays have no intersection')

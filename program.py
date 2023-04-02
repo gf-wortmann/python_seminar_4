@@ -1,38 +1,21 @@
-# Задача 22:
-# Даны два неупорядоченных набора целых чисел (может быть, с повторениями).
-# Выдать без повторений в порядке возрастания все те числа, которые встречаются
-# в обоих наборах.
-# Пользователь вводит 2 числа. n - кол-во элементов первого множества. m - кол-во
-# элементов второго множества. Затем пользователь вводит сами элементы
-# множеств
-#
-# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Условия задачи слегка расширены: можно ввести длины произвольного количества массивов.
-# Результатом будет пересечение ВСЕХ массивов.
-# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Задача №25. Решение в группах
+# Напишите программу, которая принимает на вход
+# строку, и отслеживает, сколько раз каждый символ
+# уже встречался. Количество повторов добавляется к
+# символам с помощью постфикса формата _n.
+# Input: a a a b c a a d c d d
+# Output: a a_1 a_2 b c a_3 a_4 d c_1 d_1 d_2
 
+stringEntered = 'a a a b c a a d c d d'
+stringSplit = stringEntered.split(' ')
+stringResult = ''
+dictLetters = {i:0 for i in stringSplit}
 
-from random import randrange
-# getting user's input
-list_length = [int(i) for i in input('Enter lengths of any arrays: ').split()]
+for j in range(len(stringSplit)):
+    stringResult += f' {stringSplit[j]}'
+    if dictLetters[stringSplit[j]] != 0:
+        stringResult += f'_{dictLetters[stringSplit[j]]} '
+    dictLetters[stringSplit[j]] += 1
 
-# forming random lists of integers
-# upper margin at 100 set just for simplicity
-lists = [
-        [randrange(1,100) for j in range(list_length[i])]
-         for i in range(len(list_length))
-        ]
-
-# forming sets of unique values of the lists
-sets = [set(lists[i]) for i in range(len(list_length))]
-
-# getting intersection of all sets
-res = set(sets[0])  # the result doesn't depend on which set is taken as starting point, so the 1st is taken
-for i in sets:
-    res = res.intersection(i)
-
-# printing the result
-if len(res) != 0:
-    print(f'intersection of arrays is: {res}')
-else:
-    print('arrays have no intersection')
+stringResult = stringResult[1:-1]
+print(stringResult)
